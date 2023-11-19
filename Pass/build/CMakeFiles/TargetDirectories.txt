@@ -1,0 +1,6 @@
+/home/vagrant/src/compiler_project/CS201-F23-Template/Pass/build/CMakeFiles/intrinsics_gen.dir
+/home/vagrant/src/compiler_project/CS201-F23-Template/Pass/build/CMakeFiles/omp_gen.dir
+/home/vagrant/src/compiler_project/CS201-F23-Template/Pass/build/CMakeFiles/acc_gen.dir
+/home/vagrant/src/compiler_project/CS201-F23-Template/Pass/build/CMakeFiles/ReachingDefinition.dir
+/home/vagrant/src/compiler_project/CS201-F23-Template/Pass/build/CMakeFiles/edit_cache.dir
+/home/vagrant/src/compiler_project/CS201-F23-Template/Pass/build/CMakeFiles/rebuild_cache.dir
