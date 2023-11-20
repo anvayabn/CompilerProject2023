@@ -2,8 +2,8 @@ cmake_minimum_required(VERSION 3.9)
 project(ReachingDefinition)
 
 # find LLVM packages 
-# set(LLVM_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../LLVM/install/lib/cmake/llvm)
-set(LLVM_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../../../llvm/install/lib/cmake/llvm)
+set(LLVM_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../LLVM/install/lib/cmake/llvm)
+# set(LLVM_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../../../llvm/install/lib/cmake/llvm)
 find_package(LLVM REQUIRED CONFIG)
 add_definitions(${LLVM_DEFINITIONS})
 include_directories(${LLVM_INCLUDE_DIRS})

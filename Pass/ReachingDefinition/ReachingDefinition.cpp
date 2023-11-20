@@ -133,7 +133,7 @@ struct ReachingDefinition : public FunctionPass
 
     /* Print the instrctions with its index and  */
     //DEBUG Print 
-    // print_instruction_blocks_with_index(all_ins, F);
+    print_instruction_blocks_with_index(all_ins, F);
 
     /* Global GEN, KILL , IN, OUT sets*/
     std::map<llvm::BasicBlock*, set<int>> IN; 

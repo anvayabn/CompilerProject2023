@@ -1,5 +1,31 @@
 ReachingDefinition: By Anvaya and Arnav : Compiler Construction Phase-II: test
 -----entry-----
+0:  %y = alloca i32, align 4
+1:  %x = alloca i32, align 4
+2:  %z = alloca i32, align 4
+3:  store i32 3, i32* %y, align 4
+4:  store i32 10, i32* %x, align 4
+5:  store i32 11, i32* %y, align 4
+6:  %0 = load i32, i32* %x, align 4
+7:  %1 = load i32, i32* %y, align 4
+8:  %cmp = icmp sgt i32 %0, %1
+9:  br i1 %cmp, label %if.then, label %if.else
+-----if.then-----
+10:  %2 = load i32, i32* %x, align 4
+11:  %add = add nsw i32 %2, 1
+12:  store i32 %add, i32* %x, align 4
+13:  %3 = load i32, i32* %x, align 4
+14:  %add1 = add nsw i32 %3, 2
+15:  store i32 %add1, i32* %y, align 4
+16:  br label %if.end
+-----if.else-----
+17:  %4 = load i32, i32* %x, align 4
+18:  store i32 %4, i32* %z, align 4
+19:  store i32 4, i32* %x, align 4
+20:  br label %if.end
+-----if.end-----
+21:  ret void
+-----entry-----
 GEN: 4 5 
 KILL: 3 
 IN: 
