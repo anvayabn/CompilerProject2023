@@ -95,7 +95,6 @@ struct ReachingDefinition : public FunctionPass
       latest_defs_in_block - map of Block to (map <string to index>)                   
     */
     std::map<int, llvm::Instruction*> all_ins; 
-    // std::map<llvm::BasicBlock*, map<std::string, std::set<int>>> def_of_var_block;
     std::map<llvm::BasicBlock*, std::map<std::string, int>> latest_def_in_block;
 
     /* Index */
@@ -120,18 +119,7 @@ struct ReachingDefinition : public FunctionPass
               /* add to def_of_var */
               if (store_instruction->getPointerOperand() -> hasName()){
                 std::string var_name = store_instruction->getPointerOperand() ->getName().str();
-
-                // if (def_of_var.find(var_name) != def_of_var.end()){
-                //   std::set<int> temp; 
-                //   def_of_var[var_name] = temp;
-                // }
-                // def_of_var[var_name].insert(i);
-
-                // def_of_var_block[ &basic_block ] =  def_of_var; 
-
-                /* add the latest definitions in the block */
                 l_def [var_name] = i ;
-
               }
           }
         }
