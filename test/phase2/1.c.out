@@ -1,0 +1,3 @@
+../../../../llvm/install/bin/opt: <stdin>:1:1: error: expected top-level entity
+void test() {
+^

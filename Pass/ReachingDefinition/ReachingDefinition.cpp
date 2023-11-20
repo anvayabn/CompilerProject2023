@@ -19,46 +19,31 @@ using namespace std;
 
 #define DEBUG_TYPE "ReachingDefinition"
 
-void printset(const std::set<int> &input)
-{
-  for (auto &inp : input){
-    errs() << inp << " ";
+void print_set(std::set<int>& st, std::string type){
+  errs() << type << ": ";
+  for (auto &i : st){
+    errs() << i << " ";
   }
+  errs() << "\n";
 }
 
-set<int> getOutSet(const std::set<int>& gen, const std::set<int>& in, const std::set<int>& kill)
+void print_instruction_blocks_with_index(std::map<int , llvm::Instruction*>& all_ins, Function& F)
 {
-  std::set<int> resultset; 
-  std::set<int> temp; 
+    for (auto &basic_block : F)
+    {
+      errs() << "-----" << basic_block.getName() << "-----" << "\n";
 
-  std::set_difference(in.begin(), in.end(), kill.begin() , kill.end(), std::inserter(temp, temp.begin()));
-  std::set_union(gen.begin(), gen.end(), temp.begin(), temp.end(), std::inserter(resultset, resultset.begin()));
-
-  return resultset;
-  
+      for (auto &i : all_ins){
+        llvm::Instruction* inst = i.second;
+        int ind = i.first;
+        
+        /* Print instructions belonging to this block */
+        if (inst->getParent() == &basic_block){
+          errs() << ind << ":" << *inst << "\n";
+        } 
+      }
+    }
 }
-
-set<int> union_of_pred(BasicBlock *bb, map<BasicBlock* , set<int>>& OUT)
-{
-  std::set<int> result;
-
-  /* get the predecessors */
-  for (auto PI = pred_begin(bb), E = pred_end(bb); PI != E; ++PI)
-  {
-    BasicBlock *pred = *PI; 
-    set<int> out = OUT[pred]; 
-    std::set_union(result.begin(), result.end(), out.begin(), out.end(), std::inserter(result, result.begin()));
-
-  }
-
-  return result; 
-}
-map<Value*, int> get_latest_definition(BasicBlock *bb, map<BasicBlock* ,  map<Value*, int>>& L_DEF)
-{
-  map<Value*, int> result ; 
-  
-}
-
 
 namespace
 {
@@ -70,91 +55,119 @@ struct ReachingDefinition : public FunctionPass
 
   bool runOnFunction(Function &F) override
   {
-    errs() << "ReachingDefinition: ";
+    errs() << "ReachingDefinition: By Anvaya and Arnav : Compiler Construction Phase-II";
     errs() << F.getName() << "\n";
 
-    /* Global GEN and KILL set */
-    map<BasicBlock* , set<int>> GEN, KILL, IN, OUT;  
+    /* Retrive Information of the instruction from the IR */
 
-    /* Maintain a map of values of their latest definition */ 
-    map<BasicBlock* ,  map<Value*, int>> L_DEF; 
-    /* index */
-    int i = 0; 
+    /* Data Structures to hold the data 
+      all_ins - map of index to instruction 
+      def_of_var - map between varname 
+                  (string) and vector of all the indexes var is defined 
+      latest_defs_in_block - map of Block to (map <string to index>)                   
+    */
+    std::map<int, llvm::Instruction*> all_ins; 
+    std::map<std::string, std::set<int>> def_of_var;
+    std::map<llvm::BasicBlock*, std::map<std::string, int>> latest_def_in_block;
 
-    /* for each basic block find the variables that enter and exit the basic block */
+    /* Index */
+    int i = 0 ; 
+
     for (auto &basic_block : F)
-    {
-            
-      /* display the name of each basic block */
-      errs() << "-----" << basic_block.getName() << "-----" << "\n";
+    { 
 
-      /* Sets for Reaching definition, should be processed for each block  */
-      std::set<int> gen ; 
-      std::set<int> kill;
-      std::set<int> in; 
-      std::set<int> out; 
-      map<Value*, int> latest_definition;
-
-      if (basic_block.getName() != "entry")
-      {
-        in = union_of_pred(&basic_block, OUT);
-        /* get the latest definition */
-        latest_definition = get_latest_definition(&basic_block, L_DEF);
-      }
-
+      std::map<std::string, int> l_def; 
       for (auto &inst : basic_block)
       {
-        /* read instructions */
-        errs() << i << ":"<< inst << "\n";
+        /* add each instruction to all_ins */
+        all_ins[ i ] = &inst;
+
+        /* If instruction is store operation */
         if (inst.getOpcode() == Instruction::Store){
 
-          /* check the what the operand is ??*/
-          StoreInst *store_instruction = dyn_cast<StoreInst>(&inst);
-          if (store_instruction)
-          {
-            Value *var = store_instruction->getPointerOperand();
-            
-            /* if we find a definition */
-            if ((latest_definition.find(var) != latest_definition.end()) || (in.find(latest_definition[var]) != in.end()))
-            {
-              kill.insert(latest_definition[var]);
-              gen.erase(latest_definition[var]);
-            } 
-            latest_definition[var] = i ; 
-            gen.insert(latest_definition[var]);
-          }
+          StoreInst *store_instruction = dyn_cast<StoreInst>(&inst); 
+          if (store_instruction){
+              
+              /* add to def_of_var */
+              if (store_instruction->getPointerOperand() -> hasName()){
+                std::string var_name = store_instruction->getPointerOperand() ->getName().str();
 
-          /* add to kill set if previous definition is killed */
-          
+                if (def_of_var.find(var_name) != def_of_var.end()){
+                  std::set<int> temp; 
+                  def_of_var[var_name] = temp;
+                }
+                def_of_var[var_name].insert(i);
+
+
+                /* add the latest definitions in the block */
+                l_def [var_name] = i ;
+
+              }
+          }
         }
         i++;
       }
 
-      errs() << "IN:" << "\n";
-      printset(in);
-      errs() << "GEN:" << "\n";
-      printset(gen);
-      errs() << "KILL:" << "\n";
-      printset(kill);
-
-      L_DEF[&basic_block] = latest_definition; 
-      IN[&basic_block] = in;
-    
-      /* add the basic blocks GEN set and KILL set */
-      GEN[&basic_block] = gen; 
-      KILL[&basic_block] = kill; 
-
-      /* OUT[B] = GEN[B] U (IN[B] - KILL[B])*/
-      OUT[&basic_block] = getOutSet(GEN[&basic_block], IN[&basic_block], KILL[&basic_block]);
-      errs() << "OUT:" << "\n";
-      printset(OUT[&basic_block]);
+      /* add to global latest def */
+      latest_def_in_block [&basic_block] = l_def; 
 
     }
 
+    /* Print the instrctions with its index and  */
+    //DEBUG Print 
+    // print_instruction_blocks_with_index(all_ins, F);
+
+    /* reinitialise the index */
+    i = 0 ; 
+    for (auto &basic_block : F)
+    {
+      /* kill gen set for each block */
+      std::set<int> gen; 
+      std::set<int> kill; 
+
+      std::map<std::string, int> temp_ldef = latest_def_in_block [ &basic_block ]; 
+      /* Gen Set : definitions within Basic Block (B) that reach the end of B 
+
+      */
+      for (auto &inst : basic_block)
+      {
+
+        /* create Gen Set for store operations */
+        if (inst.getOpcode() == Instruction::Store){
+
+          StoreInst *store_instruction = dyn_cast<StoreInst>(&inst); 
+          if (store_instruction){
+            if (store_instruction->getPointerOperand() -> hasName()){
+                std::string var_name = store_instruction->getPointerOperand() ->getName().str();
+                
+                /* Only add definitions that reach */
+                if(temp_ldef.find(var_name) != temp_ldef.end()){
+                  gen.insert(temp_ldef[var_name]); 
+
+                  /* if the index of the varname is different add to kill set */
+                  if (i != temp_ldef[var_name]){
+                    kill.insert(i); 
+                  }
+                } 
+
+                /* Other additions to Kill Set */
+                
+                 
+            }    
+
+          }
+
+        }
+        i++; 
+      }
+      print_set(gen,"GEN"); 
+      print_set(kill, "KILL"); 
+
+    }    
     return true;
   }
 }; // end of struct ReachingDefinition
-} // end of anonymous namespace
+}// end of anonymous namespace
 
 char ReachingDefinition::ID = 0;
 static RegisterPass<ReachingDefinition> X("ReachingDefinition", "Reaching Definition Pass",
