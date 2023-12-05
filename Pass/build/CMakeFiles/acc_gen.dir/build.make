@@ -53,7 +53,7 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/vagrant/src/compiler_project/CS201-F23-Template/Pass/ReachingDefinition
+CMAKE_SOURCE_DIR = /home/vagrant/src/compiler_project/CS201-F23-Template/Pass/CSElimination
 
 # The top-level build directory on which CMake was run.
 CMAKE_BINARY_DIR = /home/vagrant/src/compiler_project/CS201-F23-Template/Pass/build
@@ -78,6 +78,6 @@ CMakeFiles/acc_gen.dir/clean:
 .PHONY : CMakeFiles/acc_gen.dir/clean
 
 CMakeFiles/acc_gen.dir/depend:
-	cd /home/vagrant/src/compiler_project/CS201-F23-Template/Pass/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/vagrant/src/compiler_project/CS201-F23-Template/Pass/ReachingDefinition /home/vagrant/src/compiler_project/CS201-F23-Template/Pass/ReachingDefinition /home/vagrant/src/compiler_project/CS201-F23-Template/Pass/build /home/vagrant/src/compiler_project/CS201-F23-Template/Pass/build /home/vagrant/src/compiler_project/CS201-F23-Template/Pass/build/CMakeFiles/acc_gen.dir/DependInfo.cmake "--color=$(COLOR)"
+	cd /home/vagrant/src/compiler_project/CS201-F23-Template/Pass/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/vagrant/src/compiler_project/CS201-F23-Template/Pass/CSElimination /home/vagrant/src/compiler_project/CS201-F23-Template/Pass/CSElimination /home/vagrant/src/compiler_project/CS201-F23-Template/Pass/build /home/vagrant/src/compiler_project/CS201-F23-Template/Pass/build /home/vagrant/src/compiler_project/CS201-F23-Template/Pass/build/CMakeFiles/acc_gen.dir/DependInfo.cmake "--color=$(COLOR)"
 .PHONY : CMakeFiles/acc_gen.dir/depend
 

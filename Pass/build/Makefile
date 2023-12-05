@@ -57,7 +57,7 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/vagrant/src/compiler_project/CS201-F23-Template/Pass/ReachingDefinition
+CMAKE_SOURCE_DIR = /home/vagrant/src/compiler_project/CS201-F23-Template/Pass/CSElimination
 
 # The top-level build directory on which CMake was run.
 CMAKE_BINARY_DIR = /home/vagrant/src/compiler_project/CS201-F23-Template/Pass/build
@@ -156,41 +156,41 @@ acc_gen/fast:
 .PHONY : acc_gen/fast
 
 #=============================================================================
-# Target rules for targets named ReachingDefinition
+# Target rules for targets named CSElimination
 
 # Build rule for target.
-ReachingDefinition: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ReachingDefinition
-.PHONY : ReachingDefinition
+CSElimination: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CSElimination
+.PHONY : CSElimination
 
 # fast build rule for target.
-ReachingDefinition/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ReachingDefinition.dir/build.make CMakeFiles/ReachingDefinition.dir/build
-.PHONY : ReachingDefinition/fast
+CSElimination/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CSElimination.dir/build.make CMakeFiles/CSElimination.dir/build
+.PHONY : CSElimination/fast
 
-ReachingDefinition.o: ReachingDefinition.cpp.o
-.PHONY : ReachingDefinition.o
+CSElimination.o: CSElimination.cpp.o
+.PHONY : CSElimination.o
 
 # target to build an object file
-ReachingDefinition.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ReachingDefinition.dir/build.make CMakeFiles/ReachingDefinition.dir/ReachingDefinition.cpp.o
-.PHONY : ReachingDefinition.cpp.o
+CSElimination.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CSElimination.dir/build.make CMakeFiles/CSElimination.dir/CSElimination.cpp.o
+.PHONY : CSElimination.cpp.o
 
-ReachingDefinition.i: ReachingDefinition.cpp.i
-.PHONY : ReachingDefinition.i
+CSElimination.i: CSElimination.cpp.i
+.PHONY : CSElimination.i
 
 # target to preprocess a source file
-ReachingDefinition.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ReachingDefinition.dir/build.make CMakeFiles/ReachingDefinition.dir/ReachingDefinition.cpp.i
-.PHONY : ReachingDefinition.cpp.i
+CSElimination.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CSElimination.dir/build.make CMakeFiles/CSElimination.dir/CSElimination.cpp.i
+.PHONY : CSElimination.cpp.i
 
-ReachingDefinition.s: ReachingDefinition.cpp.s
-.PHONY : ReachingDefinition.s
+CSElimination.s: CSElimination.cpp.s
+.PHONY : CSElimination.s
 
 # target to generate assembly for a file
-ReachingDefinition.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ReachingDefinition.dir/build.make CMakeFiles/ReachingDefinition.dir/ReachingDefinition.cpp.s
-.PHONY : ReachingDefinition.cpp.s
+CSElimination.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CSElimination.dir/build.make CMakeFiles/CSElimination.dir/CSElimination.cpp.s
+.PHONY : CSElimination.cpp.s
 
 # Help Target
 help:
@@ -203,10 +203,10 @@ help:
 	@echo "... acc_gen"
 	@echo "... intrinsics_gen"
 	@echo "... omp_gen"
-	@echo "... ReachingDefinition"
-	@echo "... ReachingDefinition.o"
-	@echo "... ReachingDefinition.i"
-	@echo "... ReachingDefinition.s"
+	@echo "... CSElimination"
+	@echo "... CSElimination.o"
+	@echo "... CSElimination.i"
+	@echo "... CSElimination.s"
 .PHONY : help
 
 

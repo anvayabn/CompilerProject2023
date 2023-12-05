@@ -1,4 +1,4 @@
-# Install script for directory: /home/vagrant/src/compiler_project/CS201-F23-Template/Pass/ReachingDefinition
+# Install script for directory: /home/vagrant/src/compiler_project/CS201-F23-Template/Pass/CSElimination
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
